@@ -4,6 +4,8 @@ const dotenv = require('dotenv');
 const morgan = require('morgan');
 const colors = require('colors');
 
+//custom errors!!
+const errorHandler = require('./middleware/error');
 
 //Load Env to use .env file variables.
 dotenv.config({path: './config/config.env'});
@@ -39,6 +41,8 @@ app.use('/api/v1/bootcamps', bootcamps);
 //.send({ data: 'Welcome to DevBootCamps!!'});
 //We can sent JSON by simple passing JS object.
 
+
+app.use(errorHandler);
 //PORT and lesion server 
 const PORT = process.env.PORT || 5000;
 
