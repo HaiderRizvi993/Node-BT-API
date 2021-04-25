@@ -17,6 +17,8 @@ connectDB();
 //Routers import
 //const logger = require('./middleware/logger');
 const bootcamps = require('./routes/bootcamps');
+const courses = require('./routes/courses');
+
 
 const app = express();
 // TO use req.body we use this middleware
@@ -36,6 +38,7 @@ app.get('/', (req, res) =>{
         .send('<h1>Welcome to DevBootCamps!!</h1>');       
 });
 app.use('/api/v1/bootcamps', bootcamps);
+app.use('/api/v1/courses', courses);
 
 //.send('Welcome to DevBootCamps!!'); // It Also set header Ac
 //.send({ data: 'Welcome to DevBootCamps!!'});
