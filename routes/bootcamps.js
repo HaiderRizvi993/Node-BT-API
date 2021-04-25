@@ -5,13 +5,17 @@ const {
     createBootcamp, 
     updateBootcamp, 
     deleteBootcamp,
-    getBootcampsInRadius
+    getBootcampsInRadius,
+    bootcampPhotoUpload
     } = require('../controllers/bootcamps')
 
 const router =  express.Router();
+const Bootcamp = require('../models/Bootcamp');
+//Advance results;
+const advancedResults = require('../middleware/advancedResults');
 
 //Include other resource routers
-    const courserRouter = require('./courses');
+const courserRouter = require('./courses');
 
     //Re-route into other resource routers;
     router.use('/:bootcampId/courses', courserRouter);
@@ -19,44 +23,16 @@ const router =  express.Router();
 router.route('/radius/:zipcode/:distance').get(getBootcampsInRadius);
 
 router.route('/')
-        .get(getBootcamps)
+        .get(advancedResults(Bootcamp, 'courses'), getBootcamps)
         .post(createBootcamp);
 router.route('/:id')
         .get(getBootcamp)
         .put(updateBootcamp)
         .delete(deleteBootcamp);
+router.route('/:id/photo')
+        .put(bootcampPhotoUpload);
+
 
 module.exports = router;
 
-
-
-/* router.get('/', (req, res) => {
-    res
-        .status(200)
-        .json({success: true, msg: 'Show all bootcamps.'});
-});
-
-router.get('/:id', (req, res) => {
-    res
-        .status(200)
-        .json({success: true, msg: `Display BootCamp ${req.params.id}`});
-});
-
-router.post('/', (req, res) => {
-    res
-        .status(200)
-        .json({success: true, msg: 'Create new bootcamps.'});
-});
-
-router.put('/:id', (req, res) => {
-    res
-        .status(200)
-        .json({success: true, msg: `Update BootCamp ${req.params.id}`});
-});
-
-router.delete('/:id', (req, res) => {
-    res
-        .status(200)
-        .json({success: true, msg: `Delete BootCamp ${req.params.id}`});
-}); */
 

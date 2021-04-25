@@ -1,8 +1,10 @@
 console.clear();
+const path = require('path');
 const express = require('express');
 const dotenv = require('dotenv');
 const morgan = require('morgan');
 const colors = require('colors');
+const fileUpload = require('express-fileUpload');
 
 //custom errors!!
 const errorHandler = require('./middleware/error');
@@ -30,6 +32,13 @@ app.use(express.json());
 if(process.env.NODE_ENV === 'development'){
     app.use(morgan('dev'));
 }
+
+//fileUpload express fileUpload
+app.use(fileUpload());
+
+//Set static Folder //Public as static
+app.use(express.static(path.join(__dirname, 'public')));
+
 
 //Routes 
 app.get('/', (req, res) =>{
