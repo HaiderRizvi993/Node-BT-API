@@ -1,22 +1,24 @@
 const express = require('express');
 const { 
-    getCourses,
-    getCourse,
-    createCourse,
-    updateCourse,
-    deleteCourse
-    } = require('../controllers/courses');
+        getCourses,
+        getCourse,
+        createCourse,
+        updateCourse,
+        deleteCourse
+} = require('../controllers/courses');
+
+const { protect, authorize } = require('../middleware/auth');
 
 const router =  express.Router({ mergeParams: true });
 
 router.route('/')
         .get(getCourses)
-        .post(createCourse);
+        .post(protect, authorize('publisher', 'admin'), createCourse);
         
 router.route('/:id')
         .get(getCourse)
-        .put(updateCourse)
-        .delete(deleteCourse);
+        .put(protect, authorize('publisher', 'admin'), updateCourse)
+        .delete(protect, authorize('publisher', 'admin'), deleteCourse);
 
 
 

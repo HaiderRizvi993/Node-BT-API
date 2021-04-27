@@ -5,6 +5,7 @@ const dotenv = require('dotenv');
 const morgan = require('morgan');
 const colors = require('colors');
 const fileUpload = require('express-fileUpload');
+var cookieParser = require('cookie-parser');
 
 //custom errors!!
 const errorHandler = require('./middleware/error');
@@ -20,11 +21,14 @@ connectDB();
 //const logger = require('./middleware/logger');
 const bootcamps = require('./routes/bootcamps');
 const courses = require('./routes/courses');
+const auth = require('./routes/auth');
 
 
 const app = express();
 // TO use req.body we use this middleware
 app.use(express.json());
+//cookies parser!!
+app.use(cookieParser())
 
 
 //app.use(logger);
@@ -48,6 +52,7 @@ app.get('/', (req, res) =>{
 });
 app.use('/api/v1/bootcamps', bootcamps);
 app.use('/api/v1/courses', courses);
+app.use('/api/v1/auth', auth);
 
 //.send('Welcome to DevBootCamps!!'); // It Also set header Ac
 //.send({ data: 'Welcome to DevBootCamps!!'});
